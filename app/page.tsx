@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const WHATSAPP_ES = "https://wa.me/34695266981";
+const WHATSAPP_ES = "https://wa.me/34633723185";
 const WHATSAPP_EN = "https://wa.me/34663208814";
 const TEL_ES = "tel:+34695266981";
 const TEL_EN = "tel:+34663208814";
@@ -328,6 +328,7 @@ export default function Home() {
   const [activeReview, setActiveReview] = useState(0);
   const [form, setForm] = useState({ nombre: "", telefono: "", servicio: "persianas", hora: "09:00", descripcion: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [waUrl, setWaUrl] = useState("");
   const [visible, setVisible] = useState(false);
 
   const t = TEXT[lang];
@@ -435,10 +436,8 @@ export default function Home() {
                         "",
                         "Enviado desde bayresservicios.com",
                       ].filter(Boolean).join("\n");
-                      window.open(
-                        `https://wa.me/${FORM_WA_DEST}?text=${encodeURIComponent(msg)}`,
-                        "_blank"
-                      );
+                      const waUrl = `https://wa.me/${FORM_WA_DEST}?text=${encodeURIComponent(msg)}`;
+                      setWaUrl(waUrl);
                       setSubmitted(true);
                     }} className="space-y-4">
                     <div>
@@ -483,11 +482,15 @@ export default function Home() {
                 <div className="text-center py-8">
                   <div className="text-5xl mb-4">✅</div>
                   <h3 className="text-xl font-bold mb-2">{t.okTitle}</h3>
-                  <p className="text-white/50 text-sm mb-6">{t.okSub}</p>
-                  <a href={WA} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#25D366] text-black font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-[#20bf5a] transition-all">
-                    {WA_ICON_SM} {t.okBtn}
+                  <p className="text-white/50 text-sm mb-4">{t.okSub}</p>
+                  <a href={waUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-black font-bold px-5 py-3.5 rounded-xl text-sm hover:bg-[#20bf5a] transition-all hover:scale-[1.02] shadow-lg shadow-[#25D366]/20 mb-3">
+                    {WA_ICON_SM}
+                    {lang === "es" ? "Enviar por WhatsApp →" : "Send via WhatsApp →"}
                   </a>
+                  <p className="text-xs text-white/30">
+                    {lang === "es" ? "Se abrirá WhatsApp con tu solicitud lista para enviar" : "WhatsApp will open with your request ready to send"}
+                  </p>
                 </div>
               )}
             </div>
